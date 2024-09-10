@@ -6,6 +6,6 @@
 // document.body.appendChild(image);
 
 import "./styles.css";
-import { greeting } from "./greeting.js";
+import { greeting } from "./app.js";
 
 console.log(greeting);
