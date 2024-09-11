@@ -15,8 +15,8 @@ body {
     height: 100vh;
     grid-column: 1 / 2;
     padding: 5vh 0vw 5vw 0vh;
-    background-color: aliceblue;
-    grid-template-columns: 2.5vw auto;
+    background-color: #e6e6cc;
+    grid-template-columns: 1.5vw auto;
     grid-template-rows: auto auto auto auto;
     justify-items: start;
     align-items: start;
@@ -25,6 +25,27 @@ body {
 
 .sidebar-section {
     grid-column: 2 / 3;
+}
+
+#board {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    grid-column: 2 / 3;
+    background-color: #f5f5dc;
+    padding: 6vh 2vw 5vw 2vh;
+}
+
+.stickies {
+    display: grid;
+    gap: .5vh;
+}
+
+.sticky {
+    padding: 3vh;
+    background-color: white;
+    box-shadow: 2px 2px 2px 0px grey;
+    border-radius: 4px;
 }
 
 #form {

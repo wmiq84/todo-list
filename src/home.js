@@ -8,7 +8,7 @@ export class Todo {
     }
 
     createTodo() {
-        console.log("AHHA");
+        return `${this.title} | ${this.description} | ${this.dueDate} | ${this.priority}`;
     }
 }
 
@@ -22,7 +22,14 @@ export class TodoUI {
         const title = document.querySelector("#form-title").value;
         const description = document.querySelector("#form-description").value;
         const date = document.querySelector("#form-date").value;
+        const stickies = document.querySelector(".stickies");
+        const stickyText = document.createElement("p");
 
-        createTodo();
+        const sticky = new Todo(title, description, date, "High")
+        stickyText.textContent = sticky.createTodo();
+
+        stickyText.className = "sticky";
+        stickies.appendChild(stickyText);
+        console.log("ahhh");
     }
 }

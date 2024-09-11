@@ -7,6 +7,4 @@
 
 import "./styles.css";
 import "./dom.js"
-import Todo from "./home.js";
-import TodoUI from "./home.js";
 
