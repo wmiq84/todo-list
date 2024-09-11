@@ -27,11 +27,10 @@
         <h2>Today</h2>
         <ul class="stickies">
             <div class="sticky-pair">
-                <p class="sticky">Do homework  |  Work on linear algebra HW  |  2024-9-10  |  #School</p>
-                <button class="delete">Delete</button>
-            </div>
-            <div class="sticky-pair">
-                <p class="sticky">Do homework  |  Work on linear algebra HW  |  2024-9-10  |  #School</p>
+                <div class="start">
+                    <input type="checkbox" class="checkbox"></span>
+                    <p class="sticky">Do homework  |  Work on linear algebra HW  |  2024-9-10  |  #School</p>
+                </div>
                 <button class="delete">Delete</button>
             </div>
         </ul>
@@ -39,13 +38,20 @@
     <div id="form">
         <form action="" method="get" class="todo-form">
             <div class="todo-form">
-                <input type="text "name="title" id="form-title" placeholder=" Title">
+                <input type="text "name="title" id="form-title" placeholder="Title">
             </div>
             <div class="todo-form">
-                <input type="text "name="description" id="form-description" placeholder=" Description">
+                <input type="text "name="description" id="form-description" placeholder="Description">
             </div>
             <div class="todo-form">
-                <input type="text "name="date" id="form-date" placeholder=" Date">
+                <input type="date" name="date" id="form-date" placeholder="Date">
+            </div>
+            <div class="todo-form">
+                <div class="todo-priority">
+                    <input type="submit" value="Low" class="btn">
+                    <input type="submit" value="Medium" class="btn">
+                    <input type="submit" value="High" class="btn">
+                </div>
             </div>
             <div class="todo-form">
                 <input type="submit" value="Add Task" id="add-btn">

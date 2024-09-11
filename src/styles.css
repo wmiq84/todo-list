@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Roboto";
+    color: #333
 }
 
 body {
@@ -45,10 +46,17 @@ body {
 .sticky-pair {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 3vh;
     background-color: white;
     box-shadow: 1px 1px 2px 0px lightgray;
     border-radius: 4px;
+    font-size: larger;
+}
+
+.start {
+    display: flex;
+    gap: 1rem;
 }
 
 #form {
@@ -66,16 +74,46 @@ body {
     padding: .5vh .5vh .5vh .5vh;
 }
 
+.delete, .date {
+    padding: .5rem;
+    font-weight: bold;
+    border: 0px;
+    background-color: lightgray;
+    border-radius: 6px;
+}
+
 input {
     width: 100%;
     height: 2rem;
     border-radius: 4px;
     border: 1px solid lightgray;
+    color: gray;
+    padding-left: .25rem;
+    font-size: .9rem;
 }
 
-#add-btn {
+.btn, #add-btn {
     background-color: black;
     color: white;
+}
+
+.checkbox {
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+.checkbox:hover {
+    background-color: #ccc;
+}
+
+.checkbox::after {
+    content: "";
+    height: 500px;
+}
+
+.todo-priority {
+    display: flex;
 }
 
 h1 {

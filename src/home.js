@@ -1,4 +1,5 @@
 
+
 export class Todo {
     constructor(title, description, dueDate, priority) {
         this.title = title;
@@ -28,6 +29,8 @@ export class TodoUI {
         const stickyText = document.createElement("p");
         const delButton = document.createElement("button");
         const stickyPair = document.createElement("div");
+        const checkbox = document.createElement("input");
+        const start = document.createElement("div");
 
         const sticky = new Todo(title, description, date, "High");
 
@@ -36,13 +39,30 @@ export class TodoUI {
         delButton.className = "delete";
         delButton.textContent = "Delete"; 
         stickyPair.className = "sticky-pair";
+        checkbox.className = "checkbox";
+        checkbox.setAttribute("type", "checkbox");
+        start.className = "start";
 
         stickies.appendChild(stickyPair);
-        stickyPair.appendChild(stickyText);
+        stickyPair.appendChild(start);
+        start.appendChild(checkbox);
+        start.appendChild(stickyText);
         stickyPair.appendChild(delButton);
-        
 
+        // attach event listener to delete buttons
+        delButton.addEventListener('click', () => this.removeTodo(stickyPair));
+        
+        // checkbox.addEventListener('click', ())
     }
 
-    //
+    removeTodo(stickyPair) {
+        stickyPair.remove();
+    }
+
+    // strikeTodo(stickyText) {
+    //     stickyText.textContent = 
+    // }
 }
+
+const templateDelete = document.querySelector(".delete")
+templateDelete.addEventListener('click', () => this.removeTodo(stickyPair));
