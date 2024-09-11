@@ -17,6 +17,14 @@ export class TodoUI {
     constructor(){
         this.board = document.querySelector("#board");
         this.addButton = document.querySelector("#add-btn");
+        this.priorityButton = document.querySelectorAll(".btn");
+        this.currentPriority = "Low";
+
+        this.priorityButton.forEach(button => {
+            button.addEventListener('click', (event) => {
+                this.currentPriority = event.target.value;
+        });
+    });
     }
 
     // add a todo sticky with a delete button
@@ -32,7 +40,7 @@ export class TodoUI {
         const checkbox = document.createElement("input");
         const start = document.createElement("div");
 
-        const sticky = new Todo(title, description, date, "High");
+        const sticky = new Todo(title, description, date, this.currentPriority);
 
         stickyText.textContent = sticky.createTodo();
         stickyText.className = "sticky";
@@ -51,17 +59,11 @@ export class TodoUI {
 
         // attach event listener to delete buttons
         delButton.addEventListener('click', () => this.removeTodo(stickyPair));
-        
-        // checkbox.addEventListener('click', ())
     }
 
     removeTodo(stickyPair) {
         stickyPair.remove();
     }
-
-    // strikeTodo(stickyText) {
-    //     stickyText.textContent = 
-    // }
 }
 
 const templateDelete = document.querySelector(".delete")

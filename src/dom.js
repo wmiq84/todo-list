@@ -30,7 +30,7 @@ addButton.addEventListener('click', (event) => {
 
 priorityButton.forEach(button => {
         button.addEventListener('click', (event) => {
-        console.log("AGH");
-        event.preventDefault();
+            // newSticky.setPriority(event);
+            event.preventDefault();
     });
 });
