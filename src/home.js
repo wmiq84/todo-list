@@ -18,18 +18,31 @@ export class TodoUI {
         this.addButton = document.querySelector("#add-btn");
     }
 
+    // add a todo sticky with a delete button
     addTodo() {
         const title = document.querySelector("#form-title").value;
         const description = document.querySelector("#form-description").value;
         const date = document.querySelector("#form-date").value;
         const stickies = document.querySelector(".stickies");
+
         const stickyText = document.createElement("p");
+        const delButton = document.createElement("button");
+        const stickyPair = document.createElement("div");
 
-        const sticky = new Todo(title, description, date, "High")
+        const sticky = new Todo(title, description, date, "High");
+
         stickyText.textContent = sticky.createTodo();
-
         stickyText.className = "sticky";
-        stickies.appendChild(stickyText);
-        console.log("ahhh");
+        delButton.className = "delete";
+        delButton.textContent = "Delete"; 
+        stickyPair.className = "sticky-pair";
+
+        stickies.appendChild(stickyPair);
+        stickyPair.appendChild(stickyText);
+        stickyPair.appendChild(delButton);
+        
+
     }
+
+    //
 }
