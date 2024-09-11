@@ -23,6 +23,7 @@ body {
     justify-items: start;
     align-items: start;
     gap: 0px;
+    border: 1px solid lightgray;
 }
 
 .sidebar-section {

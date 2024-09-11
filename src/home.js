@@ -21,6 +21,7 @@ export class TodoUI {
         this.priorityButton = document.querySelectorAll(".btn");
         this.currentPriority = "Low";
         this.hashtag = "school"
+        this.todos = [];
 
         this.priorityButton.forEach(button => {
             button.addEventListener('click', (event) => {
@@ -30,7 +31,7 @@ export class TodoUI {
     }
 
     // add a todo sticky with a delete button
-    addTodo() {
+    addTodo(todo) {
         const title = document.querySelector("#form-title").value;
         const description = document.querySelector("#form-description").value;
         const date = document.querySelector("#form-date").value;
@@ -43,29 +44,74 @@ export class TodoUI {
         const checkbox = document.createElement("input");
         const start = document.createElement("div");
 
-        const sticky = new Todo(title, description, date, this.currentPriority, hashtag);
+        if (!todo) {
+            const sticky = new Todo(title, description, date, this.currentPriority, hashtag);
+        
+            //add each sticky to local
+            this.todos.push(sticky);
+            this.savetoLocal();
+            console.log(this.todos);
 
-        stickyText.textContent = sticky.createTodo();
-        stickyText.className = "sticky";
-        delButton.className = "delete";
-        delButton.textContent = "Delete"; 
-        stickyPair.className = "sticky-pair";
-        checkbox.className = "checkbox";
-        checkbox.setAttribute("type", "checkbox");
-        start.className = "start";
+            stickyText.textContent = sticky.createTodo();
+            stickyText.className = "sticky";
+            delButton.className = "delete";
+            delButton.textContent = "Delete"; 
+            stickyPair.className = "sticky-pair";
+            checkbox.className = "checkbox";
+            checkbox.setAttribute("type", "checkbox");
+            start.className = "start";
 
-        stickies.appendChild(stickyPair);
-        stickyPair.appendChild(start);
-        start.appendChild(checkbox);
-        start.appendChild(stickyText);
-        stickyPair.appendChild(delButton);
+            stickies.appendChild(stickyPair);
+            stickyPair.appendChild(start);
+            start.appendChild(checkbox);
+            start.appendChild(stickyText);
+            stickyPair.appendChild(delButton);
 
-        // attach event listener to delete buttons
-        delButton.addEventListener('click', () => this.removeTodo(stickyPair));
+            // attach event listener to delete buttons
+            delButton.addEventListener('click', () => this.removeTodo(stickyPair, sticky));
+        }
+        else {
+            const sticky = new Todo(todo.title, todo.description, todo.date, todo.currentPriority, todo.hashtag);
+
+            //add each sticky to local
+            this.todos.push(sticky);
+            this.savetoLocal();
+            console.log(this.todos);
+
+            stickyText.textContent = sticky.createTodo();
+            stickyText.className = "sticky";
+            delButton.className = "delete";
+            delButton.textContent = "Delete"; 
+            stickyPair.className = "sticky-pair";
+            checkbox.className = "checkbox";
+            checkbox.setAttribute("type", "checkbox");
+            start.className = "start";
+
+            stickies.appendChild(stickyPair);
+            stickyPair.appendChild(start);
+            start.appendChild(checkbox);
+            start.appendChild(stickyText);
+            stickyPair.appendChild(delButton);
+
+            // attach event listener to delete buttons
+            delButton.addEventListener('click', () => this.removeTodo(stickyPair, sticky));
+        }
     }
 
-    removeTodo(stickyPair) {
+    savetoLocal() {
+        localStorage.setItem('todos', JSON.stringify(this.todos));
+    }
+
+    loadFromLocalStorage() {
+        const todos = localStorage.getItem('todos');
+        return todos ? JSON.parse(todos) : [];
+    }
+
+    removeTodo(stickyPair, todo) {
         stickyPair.remove();
+        this.todos = this.todos.filter(t => t !== todo);
+        this.savetoLocal();
+        console.log(this.todos);
     }
 
     appendList(hashtag) {

@@ -32,10 +32,15 @@ firstButton.addEventListener('click', () => {
    } 
 });
 
+const storedStickies = newSticky.loadFromLocalStorage();
+storedStickies.forEach(todo => newSticky.addTodo(todo));
+console.log(storedStickies);
+
 addButton.addEventListener('click', (event) => {
     const hashtag = document.querySelector("#form-hashtag").value;
 
     event.preventDefault();
+
     newSticky.addTodo();
     newSticky.appendList(hashtag);
 });
