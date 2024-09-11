@@ -72,7 +72,17 @@ export class TodoUI {
         const hashtagsSection = document.querySelector(".hashtags-section");
         const newHashtag = document.createElement("p");
         newHashtag.textContent = "#" + hashtag;
+        newHashtag.className = "hashtag";
         hashtagsSection.append(newHashtag);
+        this.removeHashtag(newHashtag);
+    }
+
+    removeHashtag(newHashtag){
+        const hashtagsSection = document.querySelector(".hashtags-section");
+            newHashtag.addEventListener("click", (event) => {
+                hashtagsSection.removeChild(event.target);
+                console.log("test");
+        });
     }
 }
 

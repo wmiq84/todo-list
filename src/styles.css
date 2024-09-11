@@ -116,6 +116,11 @@ input {
     display: flex;
 }
 
+.hashtag:hover {
+    color:red;
+    text-decoration: line-through;
+}
+
 h1 {
     font-size: 1.25 rem;
 }

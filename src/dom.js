@@ -46,3 +46,8 @@ priorityButton.forEach(button => {
             event.preventDefault();
     });
 });
+
+const hashtagsSection = document.querySelector(".hashtags-section");
+const newHashtag = document.querySelectorAll("p");
+
+
