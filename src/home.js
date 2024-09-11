@@ -1,15 +1,16 @@
 
 
 export class Todo {
-    constructor(title, description, dueDate, priority) {
+    constructor(title, description, dueDate, priority, hashtag) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.hashtag = hashtag;
     }
 
     createTodo() {
-        return `${this.title} | ${this.description} | ${this.dueDate} | ${this.priority}`;
+        return `${this.title} - ${this.description} - ${this.dueDate} - ${this.priority} - #${this.hashtag}`;
     }
 }
 
@@ -19,6 +20,7 @@ export class TodoUI {
         this.addButton = document.querySelector("#add-btn");
         this.priorityButton = document.querySelectorAll(".btn");
         this.currentPriority = "Low";
+        this.hashtag = "school"
 
         this.priorityButton.forEach(button => {
             button.addEventListener('click', (event) => {
@@ -33,6 +35,7 @@ export class TodoUI {
         const description = document.querySelector("#form-description").value;
         const date = document.querySelector("#form-date").value;
         const stickies = document.querySelector(".stickies");
+        const hashtag = document.querySelector("#form-hashtag").value;
 
         const stickyText = document.createElement("p");
         const delButton = document.createElement("button");
@@ -40,7 +43,7 @@ export class TodoUI {
         const checkbox = document.createElement("input");
         const start = document.createElement("div");
 
-        const sticky = new Todo(title, description, date, this.currentPriority);
+        const sticky = new Todo(title, description, date, this.currentPriority, hashtag);
 
         stickyText.textContent = sticky.createTodo();
         stickyText.className = "sticky";
@@ -64,7 +67,12 @@ export class TodoUI {
     removeTodo(stickyPair) {
         stickyPair.remove();
     }
+
+    appendList(hashtag) {
+        const hashtagsSection = document.querySelector(".hashtags-section");
+        const newHashtag = document.createElement("p");
+        newHashtag.textContent = "#" + hashtag;
+        hashtagsSection.append(newHashtag);
+    }
 }
 
-const templateDelete = document.querySelector(".delete")
-templateDelete.addEventListener('click', () => this.removeTodo(stickyPair));

@@ -17,15 +17,27 @@ dates.sort(compareAsc);
 //   Sun Jul 02 1995 00:00:00
 // ]
 
-
 const addButton = document.querySelector("#add-btn");
 const newSticky = new TodoUI();
 
 const priorityButton = document.querySelectorAll(".btn");
+const firstButton = document.querySelector(".delete");
+const firstStart = document.querySelector(".stickies");
+
+
+// allow for default log to be removed
+firstButton.addEventListener('click', () => {
+   while (firstStart.firstChild) {
+    firstStart.removeChild(firstStart.firstChild);
+   } 
+});
 
 addButton.addEventListener('click', (event) => {
+    const hashtag = document.querySelector("#form-hashtag").value;
+
     event.preventDefault();
     newSticky.addTodo();
+    newSticky.appendList(hashtag);
 });
 
 priorityButton.forEach(button => {
