@@ -6,6 +6,7 @@
 // document.body.appendChild(image);
 
 import "./styles.css";
-import { greeting } from "./app.js";
+import "./dom.js"
+import Todo from "./home.js";
+import TodoUI from "./home.js";
 
-console.log(greeting);
