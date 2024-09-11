@@ -71,10 +71,21 @@ export class TodoUI {
     appendList(hashtag) {
         const hashtagsSection = document.querySelector(".hashtags-section");
         const newHashtag = document.createElement("p");
-        newHashtag.textContent = "#" + hashtag;
-        newHashtag.className = "hashtag";
-        hashtagsSection.append(newHashtag);
-        this.removeHashtag(newHashtag);
+        newHashtag.textContent = `#${hashtag}`; 
+        // checks for repeat hashtags
+        let hashtagExists = false; 
+        for (let child of hashtagsSection.children) {
+            if (child.textContent === newHashtag.textContent) {
+                hashtagExists = true;
+                break;
+            }
+        }      
+        if (!hashtagExists) {
+            newHashtag.textContent = "#" + hashtag;
+            newHashtag.className = "hashtag";  
+            hashtagsSection.append(newHashtag);
+            this.removeHashtag(newHashtag);
+        }
     }
 
     removeHashtag(newHashtag){
