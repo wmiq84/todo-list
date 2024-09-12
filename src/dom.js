@@ -1,6 +1,6 @@
 import { Todo, TodoUI } from "./home.js";
 
-import { compareAsc, format } from "date-fns"
+// import { compareAsc, format } from "date-fns"
 
 (() => {
   const priorityButtons = document.querySelectorAll(".btn");
