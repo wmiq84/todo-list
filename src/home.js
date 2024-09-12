@@ -95,12 +95,11 @@ export class TodoUI {
         return stickyPair;
     }
     
-
     saveToLocal() {
         localStorage.setItem('todos', JSON.stringify(this.todos));
     }
 
-    loadFromLocalStorage() {
+    loadFromLocal() {
         const todos = localStorage.getItem('todos');
         return todos ? JSON.parse(todos) : [];
     }
@@ -115,29 +114,19 @@ export class TodoUI {
     appendList(hashtag) {
         const hashtagsSection = document.querySelector(".hashtags-section");
         const newHashtag = document.createElement("p");
-        newHashtag.textContent = `#${hashtag}`; 
-        // checks for repeat hashtags
-        let hashtagExists = false; 
-        for (let child of hashtagsSection.children) {
-            if (child.textContent === newHashtag.textContent) {
-                hashtagExists = true;
-                break;
-            }
-        }      
+        newHashtag.textContent = `#${hashtag}`;
+        newHashtag.className = "hashtag";
+    
+        // Check for repeat hashtags using the some method
+        const hashtagExists = Array.from(hashtagsSection.children).some(child => child.textContent === newHashtag.textContent);
+    
         if (!hashtagExists) {
-            newHashtag.textContent = "#" + hashtag;
-            newHashtag.className = "hashtag";  
             hashtagsSection.append(newHashtag);
-            this.removeHashtag(newHashtag);
-        }
-    }
-
-    removeHashtag(newHashtag){
-        const hashtagsSection = document.querySelector(".hashtags-section");
             newHashtag.addEventListener("click", (event) => {
                 hashtagsSection.removeChild(event.target);
-                console.log("test");
-        });
+                console.log("Hashtag removed:", event.target.textContent);
+            });
+        }
     }
 }
 
