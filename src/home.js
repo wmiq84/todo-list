@@ -1,12 +1,10 @@
-
-
 export class Todo {
     constructor(title, description, dueDate, priority, hashtag) {
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priority = priority;
-        this.hashtag = hashtag;
+        this.title = title || "Untitled";
+        this.description = description || "No description";
+        this.dueDate = dueDate || "No due date";
+        this.priority = priority || "Low";
+        this.hashtag = hashtag || "general";
     }
 
     createTodo() {
@@ -15,90 +13,90 @@ export class Todo {
 }
 
 export class TodoUI {
-    constructor(){
-        this.board = document.querySelector("#board");
-        this.addButton = document.querySelector("#add-btn");
-        this.priorityButton = document.querySelectorAll(".btn");
+    constructor() {
+        this.initializeElements();
+        this.initializeEventListeners();
         this.currentPriority = "Low";
-        this.hashtag = "school"
+        this.hashtag = "school";
         this.todos = [];
-
-        this.priorityButton.forEach(button => {
-            button.addEventListener('click', (event) => {
-                this.currentPriority = event.target.value;
-        });
-    });
     }
 
+    initializeElements() {
+        this.board = document.querySelector("#board");
+        this.addButton = document.querySelector("#add-btn");
+        this.priorityButtons = document.querySelectorAll(".btn");
+    }
+
+    initializeEventListeners() {
+        this.priorityButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                this.currentPriority = event.target.value;
+            });
+        });
+    }
+    
     // add a todo sticky with a delete button
     addTodo(todo) {
         const title = document.querySelector("#form-title").value;
         const description = document.querySelector("#form-description").value;
         const date = document.querySelector("#form-date").value;
-        const stickies = document.querySelector(".stickies");
         const hashtag = document.querySelector("#form-hashtag").value;
-
-        const stickyText = document.createElement("p");
-        const delButton = document.createElement("button");
-        const stickyPair = document.createElement("div");
-        const checkbox = document.createElement("input");
-        const start = document.createElement("div");
-
-        if (!todo) {
-            const sticky = new Todo(title, description, date, this.currentPriority, hashtag);
+    
+        const sticky = new Todo(title, description, date, this.currentPriority, hashtag);
         
-            //add each sticky to local
-            this.todos.push(sticky);
-            this.savetoLocal();
-            console.log(this.todos);
+        // Add each sticky to local storage
+        this.todos.push(sticky);
+        this.saveToLocal();
+        console.log(this.todos);
 
-            stickyText.textContent = sticky.createTodo();
-            stickyText.className = "sticky";
-            delButton.className = "delete";
-            delButton.textContent = "Delete"; 
-            stickyPair.className = "sticky-pair";
-            checkbox.className = "checkbox";
-            checkbox.setAttribute("type", "checkbox");
-            start.className = "start";
-
-            stickies.appendChild(stickyPair);
-            stickyPair.appendChild(start);
-            start.appendChild(checkbox);
-            start.appendChild(stickyText);
-            stickyPair.appendChild(delButton);
-
-            // attach event listener to delete buttons
-            delButton.addEventListener('click', () => this.removeTodo(stickyPair, sticky));
-        }
-        else {
-            const sticky = new Todo(todo.title, todo.description, todo.date, todo.currentPriority, todo.hashtag);
-
-            //add each sticky to local
-            this.todos.push(sticky);
-            this.savetoLocal();
-            console.log(this.todos);
-
-            stickyText.textContent = sticky.createTodo();
-            stickyText.className = "sticky";
-            delButton.className = "delete";
-            delButton.textContent = "Delete"; 
-            stickyPair.className = "sticky-pair";
-            checkbox.className = "checkbox";
-            checkbox.setAttribute("type", "checkbox");
-            start.className = "start";
-
-            stickies.appendChild(stickyPair);
-            stickyPair.appendChild(start);
-            start.appendChild(checkbox);
-            start.appendChild(stickyText);
-            stickyPair.appendChild(delButton);
-
-            // attach event listener to delete buttons
-            delButton.addEventListener('click', () => this.removeTodo(stickyPair, sticky));
-        }
+        const stickyText = this.createStickyText(sticky);
+        const checkbox = this.createCheckbox();
+        const stickyPair = this.createStickyPair(stickyText, checkbox, sticky);
+    
+        const stickies = document.querySelector(".stickies");
+        stickies.appendChild(stickyPair);
     }
+    
+    createStickyText(sticky) {
+        const stickyText = document.createElement("p");
+        stickyText.textContent = sticky.createTodo();
+        stickyText.className = "sticky";
+        return stickyText;
+    }
+    
+    createDeleteButton(stickyPair, sticky) {
+        const delButton = document.createElement("button");
+        delButton.className = "delete";
+        delButton.textContent = "Delete";
+        delButton.addEventListener('click', () => this.removeTodo(stickyPair, sticky));
+        return delButton;
+    }
+    
+    createCheckbox() {
+        const checkbox = document.createElement("input");
+        checkbox.className = "checkbox";
+        checkbox.setAttribute("type", "checkbox");
+        return checkbox;
+    }
+    
+    createStickyPair(stickyText, checkbox, sticky) {
+        const stickyPair = document.createElement("div");
+        stickyPair.className = "sticky-pair";
+    
+        const start = document.createElement("div");
+        start.className = "start";
+        start.appendChild(checkbox);
+        start.appendChild(stickyText);
+    
+        const delButton = this.createDeleteButton(stickyPair, sticky);
+        stickyPair.appendChild(start);
+        stickyPair.appendChild(delButton);
+    
+        return stickyPair;
+    }
+    
 
-    savetoLocal() {
+    saveToLocal() {
         localStorage.setItem('todos', JSON.stringify(this.todos));
     }
 
@@ -110,7 +108,7 @@ export class TodoUI {
     removeTodo(stickyPair, todo) {
         stickyPair.remove();
         this.todos = this.todos.filter(t => t !== todo);
-        this.savetoLocal();
+        this.saveToLocal();
         console.log(this.todos);
     }
 
