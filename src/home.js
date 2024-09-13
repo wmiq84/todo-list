@@ -146,9 +146,15 @@ export class TodoUI {
 			// Remove the todo from the array
 			existingTodos.splice(index, 1);
 		}
-        stickyPair.remove();
-        saveToLocal(existingTodos);
-		console.log("After: ", existingTodos)
+
+		stickyPair.classList.add('fade-out');
+
+		// fade out animation
+		setTimeout(() => {
+			stickyPair.remove();
+			saveToLocal(existingTodos);
+			console.log("Todos after removal:", existingTodos);
+		}, 250); 
     }
 
 	

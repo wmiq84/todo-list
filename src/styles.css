@@ -118,6 +118,17 @@ input {
     height: 500px;
 }
 
+.todo-priority {
+    display: flex;
+}
+
+.hashtag:hover {
+    color:red;
+    text-decoration: line-through;
+}
+
+/* animations */
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -128,18 +139,23 @@ input {
 }
 
 .fade-in {
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.25s ease-in-out;
 }
 
-.todo-priority {
-    display: flex;
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
 
-.hashtag:hover {
-    color:red;
-    text-decoration: line-through;
+.fade-out {
+    animation: fadeOut 0.25s ease-in-out;
 }
 
+/* fonts */
 h1 {
     font-size: 1.25 rem;
 }
