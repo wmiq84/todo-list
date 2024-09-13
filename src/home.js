@@ -2,13 +2,13 @@ import { saveToLocal, loadFromLocal, saveHashtag } from './storage.js';
 import { nanoid } from "nanoid";
 
 export class Todo {
-    constructor(title, description, dueDate, priority, hashtag) {
+    constructor(title, description, dueDate, priority, hashtag, borderColor) {
         this.title = title || "Untitled";
         this.description = description || "No description";
         this.dueDate = dueDate || "No due date";
         this.priority = priority || "Low";
         this.hashtag = hashtag || "general";
-		this.borderColor = this.borderColor;
+		this.borderColor = borderColor;
     }
 
     createTodo() {
@@ -47,7 +47,6 @@ export class TodoUI {
         const date = document.querySelector("#form-date").value;
         const hashtag = document.querySelector("#form-hashtag").value;
 		const borderColor = this.setBorderColor(this.currentPriority);
-		console.log(borderColor);
 
         const sticky = new Todo(title, description, date, this.currentPriority, hashtag, borderColor);
         
@@ -61,6 +60,7 @@ export class TodoUI {
         const stickies = document.querySelector(".stickies");
 
         stickies.appendChild(stickyPair);
+		console.log(stickies)
     }
 
 	addTodoToStorage(newTodo) {
@@ -71,9 +71,10 @@ export class TodoUI {
 
 	addStored(sticky) {
 		console.log(sticky)
+		const borderColor = sticky.borderColor;
         const stickyText = this.createStickyText(sticky);
         const checkbox = this.createCheckbox();
-        const stickyPair = this.createStickyPair(stickyText, checkbox, sticky);
+        const stickyPair = this.createStickyPair(stickyText, checkbox, sticky, borderColor);
     
         const stickies = document.querySelector(".stickies");
 
@@ -127,6 +128,9 @@ export class TodoUI {
         stickyPair.appendChild(delButton);
 
 		stickyPair.style.borderLeft = borderColor;
+
+		stickyPair.classList.add('fade-in');
+
     
         return stickyPair;
     }
@@ -135,10 +139,14 @@ export class TodoUI {
 		console.log("Todo to remove:", todo);
 		var existingTodos = loadFromLocal();
 		
-		console.log("Todos before removal:", existingTodos);
+		// Find the index of the todo to remove
+		const index = existingTodos.findIndex(t => t.title === todo.title && t.description === todo.description && t.date === todo.date && t.priority === todo.priority && t.hashtag === todo.hashtag && t.borderColor === todo.borderColor);
 
+		if (index !== -1) {
+			// Remove the todo from the array
+			existingTodos.splice(index, 1);
+		}
         stickyPair.remove();
-        existingTodos.pop();
         saveToLocal(existingTodos);
 		console.log("After: ", existingTodos)
     }
