@@ -1,3 +1,5 @@
+import { saveToLocal, loadFromLocal } from './storage.js';
+
 export class Todo {
     constructor(title, description, dueDate, priority, hashtag) {
         this.title = title || "Untitled";
@@ -46,8 +48,8 @@ export class TodoUI {
         
         // Add each sticky to local storage
         this.todos.push(sticky);
-        this.saveToLocal();
-        console.log(this.todos);
+		saveToLocal(this.todos);        
+		console.log(this.todos);
 
         const stickyText = this.createStickyText(sticky);
         const checkbox = this.createCheckbox();
@@ -83,44 +85,23 @@ export class TodoUI {
         const stickyPair = document.createElement("div");
         stickyPair.className = "sticky-pair";
     
-        const delButton = this.createDeleteButton(stickyPair, sticky);
-        
         const start = document.createElement("div");
         start.className = "start";
         start.appendChild(checkbox);
-
-        start.appendChild(delButton);
-
-        stickyPair.appendChild(start);
-        stickyPair.appendChild(stickyText);
-
-        stickyPair.setAttribute("draggable", true);
-        this.addDrag(stickyPair);
-
-        return stickyPair;
-    }
+        start.appendChild(stickyText);
     
-    saveToLocal() {
-        localStorage.setItem('todos', JSON.stringify(this.todos));
-    }
-
-    loadFromLocal() {
-        const todos = localStorage.getItem('todos');
-        return todos ? JSON.parse(todos) : [];
+        const delButton = this.createDeleteButton(stickyPair, sticky);
+        stickyPair.appendChild(start);
+        stickyPair.appendChild(delButton);
+    
+        return stickyPair;
     }
 
     removeTodo(stickyPair, todo) {
         stickyPair.remove();
         this.todos = this.todos.filter(t => t !== todo);
-        this.saveToLocal();
+        saveToLocal(this.todos);
         console.log(this.todos);
-    }
-
-    addDrag(stickyPair) {
-        stickyPair.addEventListener('dragstart', (event) => {
-            event.target.classList.add('dragging');
-            console.log('aff');
-        });
     }
 
     appendList(hashtag) {

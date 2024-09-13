@@ -1,4 +1,5 @@
 import { Todo, TodoUI } from './home.js';
+import { saveToLocal, loadFromLocal } from './storage.js';
 
 (() => {
 	const priorityButtons = document.querySelectorAll('.btn');
@@ -8,7 +9,7 @@ import { Todo, TodoUI } from './home.js';
 	const hashtagsSection = document.querySelector('.hashtags-section');
 	const newSticky = new TodoUI();
 
-	const storedStickies = newSticky.loadFromLocal();
+	const storedStickies = loadFromLocal();
 	storedStickies.forEach((todo) => newSticky.addTodo(todo));
 	console.log(storedStickies);
 
