@@ -1,4 +1,4 @@
-import { saveToLocal, loadFromLocal } from './storage.js';
+import { saveToLocal, saveHashtag } from './storage.js';
 
 export class Todo {
     constructor(title, description, dueDate, priority, hashtag) {
@@ -21,6 +21,7 @@ export class TodoUI {
         this.currentPriority = "Low";
         this.hashtag = "school";
         this.todos = [];
+		this.hashtags = [];
     }
 
     initializeElements() {
@@ -105,6 +106,9 @@ export class TodoUI {
     }
 
     appendList(hashtag) {
+		// if (!hashtag.trim()) {
+		// 	return;
+		// }
         const hashtagsSection = document.querySelector(".hashtags-section");
         const newHashtag = document.createElement("p");
         newHashtag.textContent = `#${hashtag}`;
@@ -115,9 +119,19 @@ export class TodoUI {
     
         if (!hashtagExists) {
             hashtagsSection.append(newHashtag);
+
+			// save hashtags to local storage
+			this.hashtags.push(hashtag);
+			saveHashtag(this.hashtags);
+			console.log(this.hashtags);
+
             newHashtag.addEventListener("click", (event) => {
                 hashtagsSection.removeChild(event.target);
                 console.log("Hashtag removed:", event.target.textContent);
+				
+                this.hashtags = this.hashtags.filter(t => t !== hashtag);
+                saveHashtag(this.hashtags);
+                console.log(this.hashtags);
             });
         }
     }
