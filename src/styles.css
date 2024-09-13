@@ -61,6 +61,13 @@ body {
     gap: 1rem;
 }
 
+
+.end {
+    display: flex;
+    gap: .5rem;
+}
+
+
 #form {
     grid-column: 3 / 4;
     display: flex;
@@ -106,6 +113,12 @@ input {
 .delete-btn {
     height: 3vh;
     width: 3vw;
+}
+
+.details-btn {
+    background-color: white;
+    padding: .25vw;
+    border-radius: 6px;
 }
 
 .checkbox {
