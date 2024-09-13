@@ -20,7 +20,7 @@
 
 body {
     display: grid;
-    grid-template-columns: 2fr 6.5fr 2.5fr;
+    grid-template-columns: 1fr 6.5fr 2.5fr;
     background-color: var(--background-color);
 }
 
@@ -54,24 +54,40 @@ body {
 }
 
 .stickies {
-    display: grid;
-    gap: 0.5vh;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vh;
 }
 
 .sticky-pair {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: start;
     align-items: center;
+    width: 15vw;
+    height: 15vw;
     padding: 3vh;
-    background-color: var(--white);
+    background-color: lightyellow;
     box-shadow: 1px 1px 2px 0 var(--light-gray);
     border-radius: 4px;
     font-size: larger;
 }
 
+.sticky-pair.dragging {
+    opacity: 0.5; /* Visual feedback for dragging */
+}
+
+.stickies p {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    margin-top: 2vh;
+}
+
 .start {
     display: flex;
-    gap: 1rem;
+    align-items: center;
+    gap: 8vw;
 }
 
 /* Form Styles */

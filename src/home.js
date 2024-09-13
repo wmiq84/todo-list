@@ -83,15 +83,20 @@ export class TodoUI {
         const stickyPair = document.createElement("div");
         stickyPair.className = "sticky-pair";
     
+        const delButton = this.createDeleteButton(stickyPair, sticky);
+        
         const start = document.createElement("div");
         start.className = "start";
         start.appendChild(checkbox);
-        start.appendChild(stickyText);
-    
-        const delButton = this.createDeleteButton(stickyPair, sticky);
+
+        start.appendChild(delButton);
+
         stickyPair.appendChild(start);
-        stickyPair.appendChild(delButton);
-    
+        stickyPair.appendChild(stickyText);
+
+        stickyPair.setAttribute("draggable", true);
+        this.addDrag(stickyPair);
+
         return stickyPair;
     }
     
@@ -109,6 +114,13 @@ export class TodoUI {
         this.todos = this.todos.filter(t => t !== todo);
         this.saveToLocal();
         console.log(this.todos);
+    }
+
+    addDrag(stickyPair) {
+        stickyPair.addEventListener('dragstart', (event) => {
+            event.target.classList.add('dragging');
+            console.log('aff');
+        });
     }
 
     appendList(hashtag) {
