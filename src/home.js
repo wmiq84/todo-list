@@ -100,9 +100,10 @@ export class TodoUI {
     }
     
     createDeleteButton(stickyPair, sticky) {
-		const delButton = document.createElement("button");
-        delButton.className = "delete";
-        delButton.textContent = "Delete";
+		const delButton = document.createElement('img');
+		delButton.src = new URL('../assets/trash-can.svg', import.meta.url).href;
+		delButton.alt = 'Delete';
+		delButton.classList.add('delete-btn');        
         delButton.addEventListener('click', () => this.removeTodo(stickyPair, sticky));
         return delButton;
     }

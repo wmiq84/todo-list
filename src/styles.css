@@ -103,6 +103,11 @@ input {
     background-color: lightblue;
 }
 
+.delete-btn {
+    height: 3vh;
+    width: 3vw;
+}
+
 .checkbox {
     height: 25px;
     width: 25px;
