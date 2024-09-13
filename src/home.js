@@ -52,15 +52,7 @@ export class TodoUI {
         
         // Add each sticky to local storage
         this.addTodoToStorage(sticky);
-
-        const stickyText = this.createStickyText(sticky);
-        const checkbox = this.createCheckbox();
-        const stickyPair = this.createStickyPair(stickyText, checkbox, sticky, borderColor);
-    
-        const stickies = document.querySelector(".stickies");
-
-        stickies.appendChild(stickyPair);
-		console.log(stickies)
+        this.appendSticky(sticky, borderColor);
     }
 
 	addTodoToStorage(newTodo) {
@@ -70,17 +62,19 @@ export class TodoUI {
 	}
 
 	addStored(sticky) {
-		console.log(sticky)
 		const borderColor = sticky.borderColor;
+        this.appendSticky(sticky, borderColor);
+	}
+    
+    appendSticky(sticky, borderColor) {
         const stickyText = this.createStickyText(sticky);
         const checkbox = this.createCheckbox();
         const stickyPair = this.createStickyPair(stickyText, checkbox, sticky, borderColor);
     
         const stickies = document.querySelector(".stickies");
-
         stickies.appendChild(stickyPair);
-	}
-    
+    }
+
 	setBorderColor(priority) {
 		switch (priority) {
 			case "High":
