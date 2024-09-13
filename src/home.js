@@ -1,4 +1,5 @@
 import { saveToLocal, loadFromLocal, saveHashtag } from './storage.js';
+import { nanoid } from "nanoid";
 
 export class Todo {
     constructor(title, description, dueDate, priority, hashtag) {
@@ -98,7 +99,7 @@ export class TodoUI {
     }
     
     createDeleteButton(stickyPair, sticky) {
-        const delButton = document.createElement("button");
+		const delButton = document.createElement("button");
         delButton.className = "delete";
         delButton.textContent = "Delete";
         delButton.addEventListener('click', () => this.removeTodo(stickyPair, sticky));
@@ -131,12 +132,18 @@ export class TodoUI {
     }
 
     removeTodo(stickyPair, todo) {
+		console.log("Todo to remove:", todo);
+		var existingTodos = loadFromLocal();
+		
+		console.log("Todos before removal:", existingTodos);
+
         stickyPair.remove();
-        this.todos = this.todos.filter(t => t !== todo);
-        saveToLocal();
-        console.log(this.todos);
+        existingTodos.pop();
+        saveToLocal(existingTodos);
+		console.log("After: ", existingTodos)
     }
 
+	
     appendList(hashtag) {
 		if (!hashtag.trim()) {
 			return;
