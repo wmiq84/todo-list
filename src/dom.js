@@ -10,10 +10,12 @@ import { loadFromLocal, loadHashtag } from './storage.js';
 	const addButton = document.querySelector('#add-btn');
 	const newSticky = new TodoUI();
 
+	// load stickies from local storage
 	const storedStickies = loadFromLocal();
-	storedStickies.forEach((todo) => newSticky.addTodo(todo));
+	storedStickies.forEach((todo) => newSticky.addStored(todo));
 	console.log(storedStickies);
 
+	// load hashtags from local storage
     const storedHashtags = loadHashtag();
     if (Array.isArray(storedHashtags)) {
         storedHashtags.forEach((hashtag) => newSticky.appendList(hashtag));

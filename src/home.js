@@ -1,4 +1,4 @@
-import { saveToLocal, saveHashtag } from './storage.js';
+import { saveToLocal, loadFromLocal, saveHashtag } from './storage.js';
 
 export class Todo {
     constructor(title, description, dueDate, priority, hashtag) {
@@ -7,6 +7,7 @@ export class Todo {
         this.dueDate = dueDate || "No due date";
         this.priority = priority || "Low";
         this.hashtag = hashtag || "general";
+		this.borderColor = this.borderColor;
     }
 
     createTodo() {
@@ -18,7 +19,7 @@ export class TodoUI {
     constructor() {
         this.initializeElements();
         this.initializeEventListeners();
-        this.currentPriority = "Low";
+        this.currentPriority = "High";
         this.hashtag = "school";
         this.todos = [];
 		this.hashtags = [];
@@ -44,22 +45,51 @@ export class TodoUI {
         const description = document.querySelector("#form-description").value;
         const date = document.querySelector("#form-date").value;
         const hashtag = document.querySelector("#form-hashtag").value;
-    
-        const sticky = new Todo(title, description, date, this.currentPriority, hashtag);
+		const borderColor = this.setBorderColor(this.currentPriority);
+		console.log(borderColor);
+
+        const sticky = new Todo(title, description, date, this.currentPriority, hashtag, borderColor);
         
         // Add each sticky to local storage
-        this.todos.push(sticky);
-		saveToLocal(this.todos);        
-		console.log(this.todos);
+        this.addTodoToStorage(sticky);
 
+        const stickyText = this.createStickyText(sticky);
+        const checkbox = this.createCheckbox();
+        const stickyPair = this.createStickyPair(stickyText, checkbox, sticky, borderColor);
+    
+        const stickies = document.querySelector(".stickies");
+
+        stickies.appendChild(stickyPair);
+    }
+
+	addTodoToStorage(newTodo) {
+		const existingTodos = loadFromLocal();
+		existingTodos.push(newTodo);
+		saveToLocal(existingTodos);
+	}
+
+	addStored(sticky) {
+		console.log(sticky)
         const stickyText = this.createStickyText(sticky);
         const checkbox = this.createCheckbox();
         const stickyPair = this.createStickyPair(stickyText, checkbox, sticky);
     
         const stickies = document.querySelector(".stickies");
+
         stickies.appendChild(stickyPair);
-    }
+	}
     
+	setBorderColor(priority) {
+		switch (priority) {
+			case "High":
+				return "5px solid red";
+			case "Medium":
+				return "5px solid yellow";
+			case "Low":
+				return "5px solid green";
+		}
+	}
+
     createStickyText(sticky) {
         const stickyText = document.createElement("p");
         stickyText.textContent = sticky.createTodo();
@@ -82,7 +112,7 @@ export class TodoUI {
         return checkbox;
     }
     
-    createStickyPair(stickyText, checkbox, sticky) {
+    createStickyPair(stickyText, checkbox, sticky, borderColor) {
         const stickyPair = document.createElement("div");
         stickyPair.className = "sticky-pair";
     
@@ -94,6 +124,8 @@ export class TodoUI {
         const delButton = this.createDeleteButton(stickyPair, sticky);
         stickyPair.appendChild(start);
         stickyPair.appendChild(delButton);
+
+		stickyPair.style.borderLeft = borderColor;
     
         return stickyPair;
     }
@@ -101,14 +133,14 @@ export class TodoUI {
     removeTodo(stickyPair, todo) {
         stickyPair.remove();
         this.todos = this.todos.filter(t => t !== todo);
-        saveToLocal(this.todos);
+        saveToLocal();
         console.log(this.todos);
     }
 
     appendList(hashtag) {
-		// if (!hashtag.trim()) {
-		// 	return;
-		// }
+		if (!hashtag.trim()) {
+			return;
+		}
         const hashtagsSection = document.querySelector(".hashtags-section");
         const newHashtag = document.createElement("p");
         newHashtag.textContent = `#${hashtag}`;
@@ -128,7 +160,7 @@ export class TodoUI {
             newHashtag.addEventListener("click", (event) => {
                 hashtagsSection.removeChild(event.target);
                 console.log("Hashtag removed:", event.target.textContent);
-				
+
                 this.hashtags = this.hashtags.filter(t => t !== hashtag);
                 saveHashtag(this.hashtags);
                 console.log(this.hashtags);

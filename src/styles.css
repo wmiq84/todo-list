@@ -41,7 +41,7 @@ body {
 
 .stickies {
     display: grid;
-    gap: .5vh;
+    gap: 1vh;
 }
 
 .sticky-pair {
@@ -53,6 +53,7 @@ body {
     box-shadow: 1px 1px 2px 0px lightgray;
     border-radius: 4px;
     font-size: larger;
+    border-left: .5vw solid red;
 }
 
 .start {
