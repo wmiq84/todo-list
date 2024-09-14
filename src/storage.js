@@ -1,14 +1,4 @@
 import { Todo, TodoUI } from "./home";
-import { compareAsc, format } from "date-fns";
-
-format(new Date(2014, 1, 11), "yyyy-MM-dd");
-//=> '2014-02-11'
-
-const dates = [
-  new Date(1995, 6, 2),
-  new Date(1987, 1, 11),
-  new Date(1989, 6, 10),
-];
 
 export function saveToLocal(todos) {
     localStorage.setItem('todos', JSON.stringify(todos));
@@ -17,7 +7,7 @@ export function saveToLocal(todos) {
 export function loadFromLocal() {
     try {
         const todos = JSON.parse(localStorage.getItem('todos')) || [];
-        return todos.map(data => new Todo(data.title, data.description, data.date, data.priority, data.hashtag, data.borderColor, data.checked));
+        return todos.map(data => new Todo(data.title, data.description, data.dueDate, data.priority, data.hashtag, data.borderColor, data.checked));
     } catch (e) {
         console.error("Error parsing todos from localStorage", e);
         return [];

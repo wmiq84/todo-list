@@ -1,5 +1,6 @@
 import { saveToLocal, loadFromLocal, saveHashtag } from './storage.js';
 import { nanoid } from 'nanoid';
+import { format, parseISO } from 'date-fns';
 
 export class Todo {
 	constructor(title, description, dueDate, priority, hashtag, borderColor, checked = false) {
@@ -84,7 +85,6 @@ export class TodoUI {
 			sticky.checked = checkbox.checked;
 			this.updateTodoInStorage(sticky);
 		});
-
 		const stickyPair = this.createStickyPair(
 			stickyText,
 			checkbox,
@@ -153,8 +153,16 @@ export class TodoUI {
 
 	createDate(sticky) {
 		const dueDate = document.createElement('p');
+		console.log(sticky.dueDate)
+
+		// const [year, month, day] = sticky.dueDate.split('-');
+		// const dateObject = new Date(year, month - 1, day);
+		// console.log(dateObject)
+
+		// dueDate.textContent = format(dateObject, "yyyy, MM, dd");
 		dueDate.textContent = sticky.dueDate;
-		dueDate.classList.add('details-btn');
+		dueDate.classList.add('date');
+		console.log(dueDate);
 		return dueDate;
 	}
 
@@ -170,9 +178,9 @@ export class TodoUI {
 		const stickyPair = document.createElement('div');
 		stickyPair.className = 'sticky-pair';
 
+		const dueDate = this.createDate(sticky);
 		const delButton = this.createDeleteButton(stickyPair, sticky);
 		const detailsButton = this.createDetailsButton(sticky);
-		const dueDate = this.createDate(sticky);
 
 		const start = document.createElement('div');
 		start.className = 'start';
