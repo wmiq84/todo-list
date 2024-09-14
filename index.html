@@ -11,41 +11,30 @@
         <div class="sidebar-section sidebar-section">
             <h1>Todo List</h1>
         </div>
-        <!-- <div class="today-section sidebar-section">
-            <h2>Today</h2>
-        </div>
-        <div class="upcoming-section sidebar-section">   
-            <h2>Upcoming</h2>
-        </div> -->
         <div class="hashtags-section sidebar-section">
             <h2>Hashtags</h2>
         </div>
+        <img id="plus" src="057fbbe813d06c74ac0c.svg">
     </div>
     <div id="board">
         <h2>Today</h2>
         <ul class="stickies">
-            <div class="sticky-pair">
-                <div class="start">
-                    <input type="checkbox" class="checkbox"></span>
-                    <p class="sticky">Do homework  |  Work on linear algebra HW  |  2024-9-10  |  #School</p>
-                </div>
-                <button class="delete">Delete</button>
-            </div>
+            
         </ul>
     </div>
     <div id="form">
         <form action="" method="get" class="todo-form">
             <div class="todo-form">
-                <input required type="text "name="title" id="form-title" placeholder="Title">
+                <input type="text "name="title" id="form-title" placeholder="Title">
             </div>
             <div class="todo-form">
-                <input required type="text "name="description" id="form-description" placeholder="Description">
+                <input type="text "name="description" id="form-description" placeholder="Description">
             </div>
             <div class="todo-form">
-                <input required type="date" name="date" id="form-date" placeholder="Date">
+                <input type="date" name="date" id="form-date" placeholder="Date">
             </div>
             <div class="todo-form">
-                <input required type="text" name="hashtag" id="form-hashtag" placeholder="#">
+                <input type="text" name="hashtag" id="form-hashtag" placeholder="#">
             </div>         
             <div class="todo-form">
                 <div class="todo-priority">
@@ -58,6 +47,12 @@
                 <input type="submit" value="Add Task" id="add-btn">
             </div>
         </form>
+        <div id="detailsModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p id="modalText">Some text in the Modal..</p>
+            </div>
+        </div>
     </div> 
 </body>
 </html>
