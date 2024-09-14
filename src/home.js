@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { format, parseISO } from 'date-fns';
 
 export class Todo {
-	constructor(title, description, dueDate, priority, hashtag, borderColor, checked = false) {
+	constructor(title, description, dueDate, priority, hashtag, borderColor, checked = false, id) {
 		this.title = title || 'Untitled';
 		this.description = description || 'No description';
 		this.dueDate = dueDate || '';
@@ -11,11 +11,10 @@ export class Todo {
 		this.hashtag = hashtag || 'general';
 		this.borderColor = borderColor;
 		this.checked = checked;
-		this.id = nanoid();
 	}
 
 	createTodo() {
-		return `${this.title} - ${this.dueDate} - ${this.priority} - #${this.hashtag}`;
+		return `${this.title} - #${this.hashtag}`;
 	}
 }
 
@@ -63,6 +62,7 @@ export class TodoUI {
 		// Add each sticky to local storage
 		this.addTodoToStorage(sticky);
 		this.appendSticky(sticky, borderColor);
+		this.appendList("all"); // add all filtering to hashtag
 	}
 
 	addTodoToStorage(newTodo) {
@@ -85,6 +85,7 @@ export class TodoUI {
 			sticky.checked = checkbox.checked;
 			this.updateTodoInStorage(sticky);
 		});
+
 		const stickyPair = this.createStickyPair(
 			stickyText,
 			checkbox,
@@ -233,6 +234,19 @@ export class TodoUI {
 		}, 250);
 	}
 
+	// rendering used for hashtags
+    saveAndRenderTodos() {
+        saveToLocal(this.todos);
+        this.renderTodos();
+    }
+
+    renderTodos() {
+        const stickies = document.querySelector('.stickies');
+        stickies.innerHTML = ''; // Clear existing stickies
+        this.todos.forEach(todo => this.appendSticky(todo, todo.borderColor));
+    }
+
+	
 	appendList(hashtag) {
 		if (!hashtag.trim()) {
 			return;
@@ -255,13 +269,14 @@ export class TodoUI {
 			saveHashtag(this.hashtags);
 			console.log(this.hashtags);
 
+			// code for viewing stickies associated with hashtag
 			newHashtag.addEventListener('click', (event) => {
-				hashtagsSection.removeChild(event.target);
-				console.log('Hashtag removed:', event.target.textContent);
-
-				this.hashtags = this.hashtags.filter((t) => t !== hashtag);
-				saveHashtag(this.hashtags);
-				console.log(this.hashtags);
+                const selectedHashtag = event.target.textContent.slice(1); 
+                console.log('Selected Hashtag:', selectedHashtag);
+                const storedTodos = loadFromLocal();
+				const filteredTodos = selectedHashtag === 'all' ? storedTodos : storedTodos.filter(todo => todo.hashtag === selectedHashtag);
+                this.todos = filteredTodos;
+                this.renderTodos();
 			});
 		}
 	}
