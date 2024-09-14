@@ -12,7 +12,7 @@ export class Todo {
 	}
 
 	createTodo() {
-		return `${this.title} - ${this.description} - ${this.dueDate} - ${this.priority} - #${this.hashtag}`;
+		return `${this.title} - ${this.dueDate} - ${this.priority} - #${this.hashtag}`;
 	}
 }
 
@@ -116,11 +116,20 @@ export class TodoUI {
 		return delButton;
 	}
 
-	createDetailsButton(stickyPair, sticky) {
+	createDetailsButton(sticky) {
 		const detailsButton = document.createElement('button');
 		detailsButton.textContent = "DETAILS";
 		detailsButton.classList.add('details-btn');
-		// detailsButton.addEventListener('click', )
+		detailsButton.addEventListener('click', () => {
+			const modal = document.getElementById('detailsModal');
+			const modalText = document.getElementById('modalText');
+            modalText.textContent = sticky.description;
+			modal.style.display = "block";
+		});
+
+		document.querySelector('.close').addEventListener('click', () => {
+			document.getElementById('detailsModal').style.display = "none";
+		});
 		return detailsButton;
 	}
 
@@ -136,7 +145,7 @@ export class TodoUI {
 		stickyPair.className = 'sticky-pair';
 
 		const delButton = this.createDeleteButton(stickyPair, sticky);
-		const detailsButton = this.createDetailsButton();
+		const detailsButton = this.createDetailsButton(sticky);
 
 		const start = document.createElement('div');
 		start.className = 'start';
