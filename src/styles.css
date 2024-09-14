@@ -91,7 +91,7 @@ body {
 }
 
 .todo-form {
-    padding: .5vh .5vh .5vh .5vh;
+    padding: .5vh 2vh .5vh .5vh;
     width: 20vw;
     height: auto;
 }
