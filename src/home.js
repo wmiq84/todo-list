@@ -2,13 +2,15 @@ import { saveToLocal, loadFromLocal, saveHashtag } from './storage.js';
 import { nanoid } from 'nanoid';
 
 export class Todo {
-	constructor(title, description, dueDate, priority, hashtag, borderColor) {
+	constructor(title, description, dueDate, priority, hashtag, borderColor, checked = false) {
 		this.title = title || 'Untitled';
 		this.description = description || 'No description';
-		this.dueDate = dueDate || 'No due date';
+		this.dueDate = dueDate || '';
 		this.priority = priority || 'Low';
 		this.hashtag = hashtag || 'general';
 		this.borderColor = borderColor;
+		this.checked = checked;
+		this.id = nanoid();
 	}
 
 	createTodo() {
@@ -41,17 +43,17 @@ export class TodoUI {
 	}
 
 	// add a todo sticky with a delete button
-	addTodo(todo) {
+	addTodo() {
 		const title = document.querySelector('#form-title').value;
 		const description = document.querySelector('#form-description').value;
-		const date = document.querySelector('#form-date').value;
+		const dueDate = document.querySelector('#form-date').value;
 		const hashtag = document.querySelector('#form-hashtag').value;
 		const borderColor = this.setBorderColor(this.currentPriority);
 
 		const sticky = new Todo(
 			title,
 			description,
-			date,
+			dueDate,
 			this.currentPriority,
 			hashtag,
 			borderColor
@@ -75,7 +77,14 @@ export class TodoUI {
 
 	appendSticky(sticky, borderColor) {
 		const stickyText = this.createStickyText(sticky);
-		const checkbox = this.createCheckbox();
+		const checkbox = this.createCheckbox(sticky.id); // Use id as unique identifier
+		checkbox.checked = sticky.checked; 
+
+		checkbox.addEventListener('change', () => {
+			sticky.checked = checkbox.checked;
+			this.updateTodoInStorage(sticky);
+		});
+
 		const stickyPair = this.createStickyPair(
 			stickyText,
 			checkbox,
@@ -85,6 +94,15 @@ export class TodoUI {
 
 		const stickies = document.querySelector('.stickies');
 		stickies.appendChild(stickyPair);
+	}
+
+	updateTodoInStorage(updatedTodo) {
+		const existingTodos = loadFromLocal();
+		const index = existingTodos.findIndex(todo => todo.title === updatedTodo.title);
+		if (index !== -1) {
+			existingTodos[index] = updatedTodo;
+			saveToLocal(existingTodos);
+		}
 	}
 
 	setBorderColor(priority) {
@@ -118,24 +136,32 @@ export class TodoUI {
 
 	createDetailsButton(sticky) {
 		const detailsButton = document.createElement('button');
-		detailsButton.textContent = "DETAILS";
+		detailsButton.textContent = 'DETAILS';
 		detailsButton.classList.add('details-btn');
 		detailsButton.addEventListener('click', () => {
 			const modal = document.getElementById('detailsModal');
 			const modalText = document.getElementById('modalText');
-            modalText.textContent = sticky.description;
-			modal.style.display = "block";
+			modalText.textContent = sticky.description;
+			modal.style.display = 'block';
 		});
 
 		document.querySelector('.close').addEventListener('click', () => {
-			document.getElementById('detailsModal').style.display = "none";
+			document.getElementById('detailsModal').style.display = 'none';
 		});
 		return detailsButton;
 	}
 
-	createCheckbox() {
+	createDate(sticky) {
+		const dueDate = document.createElement('p');
+		dueDate.textContent = sticky.dueDate;
+		dueDate.classList.add('details-btn');
+		return dueDate;
+	}
+
+	createCheckbox(id) {
 		const checkbox = document.createElement('input');
 		checkbox.className = 'checkbox';
+		checkbox.id = id;
 		checkbox.setAttribute('type', 'checkbox');
 		return checkbox;
 	}
@@ -146,6 +172,7 @@ export class TodoUI {
 
 		const delButton = this.createDeleteButton(stickyPair, sticky);
 		const detailsButton = this.createDetailsButton(sticky);
+		const dueDate = this.createDate(sticky);
 
 		const start = document.createElement('div');
 		start.className = 'start';
@@ -154,10 +181,9 @@ export class TodoUI {
 
 		const end = document.createElement('div');
 		end.className = 'end';
+		end.appendChild(dueDate);
 		end.appendChild(detailsButton);
 		end.appendChild(delButton);
-
-	
 
 		stickyPair.appendChild(start);
 		stickyPair.appendChild(end);
@@ -178,7 +204,7 @@ export class TodoUI {
 			(t) =>
 				t.title === todo.title &&
 				t.description === todo.description &&
-				t.date === todo.date &&
+				t.dueDate === todo.dueDate &&
 				t.priority === todo.priority &&
 				t.hashtag === todo.hashtag &&
 				t.borderColor === todo.borderColor
