@@ -7,8 +7,7 @@
 }
 
 body {
-    display: grid;
-    grid-template-columns: 2fr 6.5fr 2.5fr;
+    display: flex;
     background-color: #f5f5dc;
 }
 
@@ -22,8 +21,17 @@ body {
     grid-template-rows: 1fr 5fr 5fr 5fr ;
     justify-items: start;
     align-items: start;
+    width: 15vw;
     gap: 0px;
     border: 1px solid lightgray;
+}
+
+#plus {
+    grid-row: 4 / 5;
+    margin-top: 25vh;
+    margin-left: 2vw;
+    height: 8vh;
+    width: auto;
 }
 
 .sidebar-section {
@@ -37,6 +45,7 @@ body {
     grid-column: 2 / 3;
     background-color: #f5f5dc;
     padding: 6vh 2vw 5vw 2vh;
+    width: 100%;
 }
 
 .stickies {
@@ -54,6 +63,7 @@ body {
     border-radius: 4px;
     font-size: larger;
     border-left: .5vw solid red;
+    width: 100%;
 }
 
 .start {
@@ -82,6 +92,8 @@ body {
 
 .todo-form {
     padding: .5vh .5vh .5vh .5vh;
+    width: 20vw;
+    height: auto;
 }
 
 .delete, .date {

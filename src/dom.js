@@ -36,4 +36,19 @@ if (priorityButtons) {
     });
 }
 
+const plus = document.querySelector("#plus");
+const form = document.querySelector(".todo-form");
+
+function toggleFormVisibility() {
+    if (form.style.display === 'none' || form.style.display === '') {
+        form.style.display = 'block';
+    } else {
+        form.style.display = 'none';
+    }
+}
+
+plus.addEventListener('click', () => {
+    toggleFormVisibility();
+});
+
 newSticky.appendList("all")

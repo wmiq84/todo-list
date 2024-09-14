@@ -8,7 +8,7 @@ export class Todo {
 		this.description = description || 'No description';
 		this.dueDate = dueDate || '';
 		this.priority = priority || 'Low';
-		this.hashtag = hashtag || 'general';
+		this.hashtag = hashtag || 'all';
 		this.borderColor = borderColor;
 		this.checked = checked;
 	}
@@ -278,6 +278,27 @@ export class TodoUI {
                 this.todos = filteredTodos;
                 this.renderTodos();
 			});
+
+			newHashtag.addEventListener('contextmenu', (event) => {
+				event.preventDefault(); // Prevent the default context menu from appearing
+				const selectedHashtag = event.target.textContent.slice(1); 
+				console.log('Deleting Hashtag:', selectedHashtag);
+		
+				// Load todos from local storage
+				const storedTodos = loadFromLocal();
+		
+				// Filter out todos with the selected hashtag
+				const remainingTodos = storedTodos.filter(todo => todo.hashtag !== selectedHashtag);
+				saveToLocal(remainingTodos); // Update local storage
+		
+				// Update the current todos and re-render
+				this.todos = remainingTodos;
+				this.renderTodos(); // Re-render todos
+		
+				// Remove the hashtag from the DOM and local storage
+				hashtagsSection.removeChild(newHashtag);
+				this.hashtags = this.hashtags.filter(tag => tag !== selectedHashtag);
+				saveHashtag(this.hashtags);			});
 		}
 	}
 }
